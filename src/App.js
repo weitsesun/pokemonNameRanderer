@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PokemonList from './PokemonList';
 import Pagination from './Pagination';
 import axios from 'axios';
+import './App.css';
 
 
 function App() {
@@ -21,7 +22,9 @@ function App() {
       setLoading(false);
       setPrevPageUrl(res.data.previous);
       setNextPageUrl(res.data.next);
-      setPokemon(res.data.results.map(p => p.name));
+      setPokemon(res.data.results.map(p => {
+        return p.name[0].toUpperCase() + p.name.slice(1);
+      }));
     })
 
     return () => cancel(); //avoid race condition
@@ -35,16 +38,16 @@ function App() {
     setCurrentPageUrl(nextPageUrl);
   }
   
-  if(loading) return "Loading..."
+  if(loading) return <div className="loading">Loading...</div>
 
   return (
-    <>
+    <div className="app">
       <PokemonList pokemon={pokemon} />
       <Pagination 
         gotoPreviousPage={prevPageUrl ? gotoPreviousPage : null} 
         gotoNextPage={nextPageUrl ? gotoNextPage : null}
       />
-    </>
+    </div>
   );
 }
 
