@@ -1,25 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import PokemonList from './PokemonList';
+import Pagination from './Pagination';
+import axios from 'axios';
+
 
 function App() {
+  const [pokemon, setPokemon] = useState([]);
+  const [currentPageUrl, setPageUrl] = useState("https://pokeapi.co/api/v2/pokemon/");
+  const [prevPageUrl, setPrevPageUrl] = useState(null);
+  const [nextPageUrl, setNextPageUrl] = useState(null);
+
+  useEffect(() => {
+    axios.get(currentPageUrl)
+    .then(res => {
+      setPrevPageUrl(res.data.previous);
+      setNextPageUrl(res.data.next);
+      setPokemon(res.data.results.map(p => p.name));
+    })
+  }, [currentPageUrl]);
+  
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <PokemonList pokemon={pokemon} />
   );
 }
 
