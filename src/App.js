@@ -6,7 +6,7 @@ import axios from 'axios';
 
 function App() {
   const [pokemon, setPokemon] = useState([]);
-  const [currentPageUrl, setPageUrl] = useState("https://pokeapi.co/api/v2/pokemon/");
+  const [currentPageUrl, setCurrentPageUrl] = useState("https://pokeapi.co/api/v2/pokemon/");
   const [prevPageUrl, setPrevPageUrl] = useState(null);
   const [nextPageUrl, setNextPageUrl] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -26,13 +26,24 @@ function App() {
 
     return () => cancel(); //avoid race condition
   }, [currentPageUrl]);
+
+  function gotoPreviousPage() {
+    setCurrentPageUrl(prevPageUrl);
+  }
+
+  function gotoNextPage() {
+    setCurrentPageUrl(nextPageUrl);
+  }
   
   if(loading) return "Loading..."
 
   return (
     <>
-    <PokemonList pokemon={pokemon} />
-    <Pagination prevPageUrl={prevPageUrl} nextPageUrl={nextPageUrl} />
+      <PokemonList pokemon={pokemon} />
+      <Pagination 
+        gotoPreviousPage={prevPageUrl ? gotoPreviousPage : null} 
+        gotoNextPage={nextPageUrl ? gotoNextPage : null}
+      />
     </>
   );
 }
