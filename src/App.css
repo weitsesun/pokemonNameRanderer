@@ -23,13 +23,6 @@ body{
   text-align: center;
 }
 
-.app button{
-  cursor: pointer;
-  outline: none;
-  font-size: 1.5rem;
-  border-radius: 5px;
-  background-color: rgba(19, 151, 129, 0.55);
-}
 
 .loading{
   display:grid;
@@ -43,6 +36,14 @@ body{
 .button_box{
   display:flex;
   justify-content:center;
+}
+
+.button_box button{
+  cursor: pointer;
+  outline: none;
+  font-size: 1.5rem;
+  border-radius: 5px;
+  background-color: rgba(19, 151, 129, 0.55);
 }
 
 .button_box button:hover{
